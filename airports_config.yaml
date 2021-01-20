@@ -1,0 +1,236 @@
+openapi: 3.0.0
+info:
+  title: Airports API
+  description: Get all your airport data here https://raw.githubusercontent.com/WhiteHatLearningProducts/airports/master/airportsData.json 
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: if you are using NodeJS your dev port might be 3000
+  - url: http://localhost:8080
+    description: if you are using Spring your dev port will be 8080
+  - url: https://airports-api.whitehatcoaches.org.uk
+    description: this is the production baseURL
+paths:
+  /airports:
+    get:
+      description: Returns a list of all the airports
+      parameters:
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: integer
+          description: Page number to return
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+            default: 25
+          description: Number of airports on a page
+      responses:
+        200:
+          description: an array of JSON objects that represent each airport
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    icao:
+                      type: string
+                    iata:
+                      type: string
+                    name:
+                      type: string
+                    city:
+                      type: string
+                    state:
+                      type: string
+                    country:
+                      type: string
+                    elevation:
+                      type: integer
+                    lat:
+                      type: number
+                      format: double
+                    lon:
+                      type: number
+                      format: double
+                    tz:
+                      type: string
+                  example:
+                    icao: "00AK"
+                    iata: ""
+                    name: "Lowell Field"
+                    city: "Anchor Point"
+                    state: "Alaska"
+                    country: "US"
+                    elevation: 450
+                    lat: 59.94919968
+                    lon: -151.695999146
+                    tz: "America/Anchorage"
+        404:
+          description: Not found
+          content:
+            application/json: {}
+
+    post:
+      description: Adds a new airport
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties: 
+                icao:
+                  type: string
+                iata:
+                  type: string
+                name:
+                  type: string
+                city:
+                  type: string
+                state:
+                  type: string
+                country:
+                  type: string
+                elevation:
+                  type: integer
+                lat:
+                  type: number
+                  format: double
+                lon:
+                  type: number
+                  format: double
+                tz:
+                  type: string
+              required:
+                - icao
+                - name
+                - city
+      responses:
+        200:
+          description: New airport successfully added
+          content:
+            application/json: {}
+        400:
+          description: Bad Request
+          content:
+            application/json: {}
+        409:
+          description: Conflict - an airport with that icao already exists
+          content:
+            application/json: {}
+  /airports/{icao}:
+    get:
+      summary: Return the airport specified by ICAO
+      parameters:
+        - in: path
+          name: icao
+          schema:
+            type: string
+          required: true
+          description: string ID (ICAO) of the airport to get
+      responses:
+        200:
+          description: an airport by ICAO
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  icao:
+                    type: string
+                  iata:
+                    type: string
+                  name:
+                    type: string
+                  city:
+                    type: string
+                  state:
+                    type: string
+                  country:
+                    type: string
+                  elevation:
+                    type: integer
+                  lat:
+                    type: number
+                    format: double
+                  lon:
+                    type: number
+                    format: double
+                  tz:
+                    type: string
+        404:
+          description: Not found
+          content:
+            application/json: {}
+    patch:
+      summary: Updates an airport property
+      parameters:
+        - in: path
+          name: icao
+          schema:
+            type: string
+          required: true
+          description: string ID (ICAO) of the airport to update
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties: 
+                icao:
+                  type: string
+                iata:
+                  type: string
+                name:
+                  type: string
+                city:
+                  type: string
+                state:
+                  type: string
+                country:
+                  type: string
+                elevation:
+                  type: integer
+                lat:
+                  type: number
+                  format: double
+                lon:
+                  type: number
+                  format: double
+                tz:
+                  type: string
+      responses:
+        200:
+          description: airport successfully updated
+          content:
+            application/json: {}
+        400:
+          description: Bad request
+          content:
+            application/json: {}
+        404:
+          description: Not found
+          content:
+            application/json: {}
+    delete:
+      summary: Deletes the airport specified by ICAO
+      parameters:
+        - in: path
+          name: icao
+          schema:
+            type: string
+          required: true
+          description: string ID (ICAO) of the airport to delete
+      responses:
+        200:
+          description: airport successfully deleted
+          content:
+            application/json: {}
+        400:
+          description: Bad request
+          content:
+            application/json: {}
