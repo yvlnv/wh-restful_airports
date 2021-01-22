@@ -24,7 +24,15 @@ describe("Aiport server", () => {
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
-            .end(done)
+            .end(() => {
+                request(app)
+                    .get('/airports/YANA')
+                    .expect(200)
+                    .expect(response => {
+                        expect(response.body.name).toBe("Yana Airport")
+                    })
+                    .end(done)
+            })
     })
     test("can't POST an aiport without required field", (done) => {
         request(app)
