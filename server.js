@@ -301,17 +301,17 @@ app.delete('/airports/:icao', (req, res) => {
  * @swagger
  * /:
  *   get:
- *     summary: homepage
+ *     summary: landing page
  *     responses:
  *       200:
- *         description: return a greeting and link to airports
+ *         description: return a page with a link to airports
  *         content:
  *           text/html
  */
 
 app.get("/", (req, res) => {
     res.send(
-      "<p>Welcome to the Airports homepage. <a href='/airports'>Click here</a> to see the airports."
+      "<a href='/airports'>Click here</a> for the airports"
     );
   });
 

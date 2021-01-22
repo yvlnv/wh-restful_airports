@@ -11,6 +11,14 @@ servers:
   - url: https://airports-api.whitehatcoaches.org.uk
     description: this is the production baseURL
 paths:
+  /:
+    get:
+      summary: landing page
+      responses:
+        200:
+          description: return a page with a link to airports
+          content:
+            text/html
   /airports:
     get:
       description: Returns a list of all the airports
