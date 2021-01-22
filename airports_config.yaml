@@ -25,19 +25,16 @@ paths:
       parameters:
         - in: query
           name: city
-          required: true
           schema:
             type: string
           description: City of the airport to return
         - in: query
           name: country
-          required: true
           schema:
             type: string
           description: Country of the airport to return
         - in: query
           name: page
-          required: true
           schema:
             type: integer
           description: Page number to return
