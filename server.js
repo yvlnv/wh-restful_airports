@@ -45,15 +45,21 @@ app.use(express.json())
  */
 
 app.get('/airports', (req, res) => {
-    let page = 1
-    if (req.query.page) {
-        page = req.query.page
+    let {city, country, page, pageSize} = req.query
+    if (!page) {
+        page = 1
     }
-    let pageSize = 25
-    if (req.query.pageSize) {
-        pageSize = req.query.pageSize
+    if (!pageSize) {
+        pageSize = 25
     }
-    const airports_on_page = airports.slice((page - 1) * pageSize, page * pageSize)
+    let results = airports
+    if (city) {
+        results = results.filter(r => r.city === city)
+    }
+    if (country) {
+        results = results.filter(r => r.country === country)
+    }
+    const airports_on_page = results.slice((page - 1) * pageSize, page * pageSize)
     if (airports_on_page.length > 0) {
         res.send(airports_on_page)
     } else {
